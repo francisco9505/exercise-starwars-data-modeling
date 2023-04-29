@@ -14,6 +14,12 @@ class Person(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
 
+class  AddressPerson(Base):
+    __tablename__ = 'addres_person'
+    id = Column(Integer, primary_key=True)
+    addres_id =Column(Integer, ForeignKey('addres.id'))
+    person_id = Column(Integer, ForeignKey('person.id'))
+
 class Address(Base):
     __tablename__ = 'address'
     # Here we define columns for the table address.
@@ -22,7 +28,7 @@ class Address(Base):
     street_name = Column(String(250))
     street_number = Column(String(250))
     post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
+    person_id = Column(Integer, ForeignKey('person.id'),primary_key=True)
     person = relationship(Person)
 
     def to_dict(self):
