@@ -7,29 +7,46 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)
+    name =Column(String)
+
+class Favorites(Base):
+    id = Column(Integer, primary_key=True)
+    __tablename__ = 'favorites'
+    user_id =Column(Integer,ForeignKey('user.id'))
+    basic_data_id =Column(Integer,ForeignKey('basic_data.id'))
+
+
+class BasicData(Base):
+    __tablename__ = 'basic_data'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    description = Column(String)
 
-class  AddressPerson(Base):
-    __tablename__ = 'addres_person'
+class  character(Base):
+    __tablename__ = 'character'
     id = Column(Integer, primary_key=True)
-    addres_id =Column(Integer, ForeignKey('addres.id'))
-    person_id = Column(Integer, ForeignKey('person.id'))
+    Gender = Column(String)
+    hair_color =Column(String)
+    eye_color = Column(String)
+    basic_data_id = Column (Integer,ForeignKey('basic_data.id'),primary_key=True)
 
-class Address(Base):
-    __tablename__ = 'address'
+class Planet(Base):
+    __tablename__ = 'Planet'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'),primary_key=True)
-    person = relationship(Person)
+    id = Column(Integer,primary_key=True)
+    population = Column(Integer)
+    terrain = Column(String(250))
+    climate = Column(String)
+    orbital_period = Column(Integer)
+    rotation_period = Column(Integer, nullable=False)
+    diameter = Column(Integer)
+    basic_data_id = Column(Integer, ForeignKey('basic_data.id'),primary_key=True)
 
     def to_dict(self):
         return {}
